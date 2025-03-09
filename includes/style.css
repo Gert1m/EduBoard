@@ -1,0 +1,272 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    display: flex;
+    font-family: Arial, sans-serif;
+    height: 100%;
+}
+
+/* Адаптация под телефоны */
+body.mobile {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+body.mobile header {
+    height: 8.8vh;
+    width: 100vw;
+    background-color: #4A90E2;
+    padding: 3vh 3.3vw;
+}
+
+body.mobile main {
+    flex: 1;
+    width: 100vw;
+}
+
+body.mobile footer {
+    height: 8.8vh;
+    width: 100vw;
+    background-color: #4A90E2;
+    padding: 3vh 2vw;
+    margin-top: 2vh;
+}
+
+body.mobile footer p {
+    color: white;
+}
+
+body.mobile a {
+    font-size: 2.9vw;
+    text-decoration: none;
+    color: white;
+}
+
+body.mobile h1 {
+    font-size: 3.9vw;
+    color: black;
+}
+
+body.mobile header h2 {
+    color: white;
+}
+
+body.mobile h2 {
+    font-size: 4.8vw;
+    color: black;
+}
+
+body.mobile h3 {
+    font-size: 5.7vw;
+    color: black;
+}
+
+body.mobile p {
+    font-size: 4.2vw;
+    color: black;
+}
+
+body.mobile button {
+    background-color: #4A90E2;
+    color: white;
+    font-size: 3.6vw;
+    height: 7.5vw;
+    border: none;
+    padding: 0 1.8vw;
+    border-radius: 1.8vw;
+    margin: 2vw 0.3vw;
+}
+
+body.mobile input {
+    margin: 1vw 0.5vw;
+    font-size: 3.6vw;
+    width: 75vw;
+    height: 7.5vw;
+    padding: 0 2%;
+    border-radius: 1.8vw;
+    border: 0.1vw solid black;
+}
+
+body.mobile input[type="checkbox"] {
+    margin: 1vw 0.5vw;
+    width: 7.5vw;
+    height: 7.5vw;
+}
+
+body.mobile textarea {
+    margin: 1vw 0.5vw;
+    font-size: 3.6vw;
+    width: 75vw;
+    height: 7.5vw;
+    padding: 0 2%;
+    border-radius: 1.8vw;
+    border: 0.1vw solid black;
+}
+
+body.mobile nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+body.mobile nav ul li {
+    display: inline;
+    margin-left: 1.2vw;
+}
+
+body.mobile .a {
+    font-size: 3.7vw;
+    color: black;
+}
+
+/* Адаптация под компьютеры */
+body.desktop {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+body.desktop header {
+    height: 8.8vh;
+    width: 100vw;
+    background-color: #4A90E2;
+    padding: 3vh 3.3vw;
+}
+
+body.desktop main {
+    flex: 1;
+    width: 100vw;
+}
+
+body.desktop footer {
+    height: 8.8vh;
+    width: 100vw;
+    background-color: #4A90E2;
+    padding: 3vh 2vw;
+    margin-top: 2vh;
+}
+
+body.desktop footer p {
+    color: white;
+}
+
+body.desktop a {
+    font-size: 2.3vh;
+    text-decoration: none;
+    color: white;
+}
+
+body.desktop h1 {
+    font-size: 3.5vh;
+    color: black;
+}
+
+body.desktop header h2 {
+    color: white;
+    margin: -1.1vh 1vw;
+}
+
+body.desktop h2 {
+    font-size: 4.5vh;
+    color: black;
+}
+
+body.desktop h3 {
+    font-size: 5.5vh;
+    color: black;
+}
+
+body.desktop p {
+    font-size: 2.6vh;
+    color: black;
+}
+
+body.desktop button {
+    background-color: #4A90E2;
+    color: white;
+    font-size: 2.3vh;
+    height: 5.5vh;
+    border: none;
+    padding: 1vh 0.8vw;
+    border-radius: 0.8vh;
+    margin: 1vh 0.3vw;
+}
+
+body.desktop input {
+    margin: 1vh 0.5vw;
+    font-size: 2.3vh;
+    width: 35vw;
+    height: 5.5vh;
+    padding: 1vh 0.8vw;
+    border-radius: 0.8vh;
+    border: 0.1vh solid black;
+}
+
+body.desktop input[type="checkbox"] {
+    margin: 1vw 0.5vw;
+    width: 2vw;
+    height: 2vw;
+}
+
+body.desktop textarea {
+    margin: 1vh 0.5vw;
+    font-size: 2.3vh;
+    width: 35vw;
+    height: 5.5vh;
+    padding: 1vh 0.8vw;
+    border-radius: 0.8vh;
+    border: 0.1vh solid black;
+    resize: none;
+}
+
+body.desktop nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+body.desktop nav ul li {
+    display: inline;
+    margin-left: 1.6vw;
+}
+
+body.desktop .a {
+    font-size: 2.6vh;
+    color: black;
+}
+
+/* Общие элементы */
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.colomn {
+    display: flex;
+    flex-direction: column;
+}
+
+.center {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align:center;
+}
+
+.spased {
+    justify-content: space-between;
+}
+
+a:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
