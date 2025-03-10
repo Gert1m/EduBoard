@@ -14,7 +14,7 @@ with connection:
                     password VARCHAR(255) NOT NULL,
                     role VARCHAR(255) NOT NULL,
                     identify_by VARCHAR(255) DEFAULT NULL,
-                    verify TINYINT(1) DEFAUNT '0'
+                    verify TINYINT(1) DEFAULT '0'
                 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"""
 
         cursor.execute(sql)
