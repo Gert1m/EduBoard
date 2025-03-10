@@ -1,7 +1,7 @@
 <?php
 class DataBase {
     function query($sql) {
-        $connection = new mysqli("103.88.241.91", "mysql", "mysql", "EduBoard");
+        $connection = new mysqli("103.88.241.91", "mysql", "mysql", "eduboard");
         $result = $connection -> query($sql);
 
         if ($result -> num_rows > 0) 
