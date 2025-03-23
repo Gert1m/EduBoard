@@ -1,10 +1,15 @@
 <?php
 class DataBase {
     function query($sql) {
-        $connection = new mysqli("103.88.241.91", "mysql", "mysql", "eduboard");
+        $connection = new mysqli("localhost", "root", "root", "EduBoard");
         $result = $connection -> query($sql);
-
-        if ($result -> num_rows > 0) 
+        $connection -> close();
+        
+        if (is_bool($result))
+        {
+            return $result;
+        }
+        elseif ($result -> num_rows > 0) 
         {
             return $result;
         } 
@@ -12,8 +17,6 @@ class DataBase {
         {
             return "";
         }
-
-        $connection -> close();
     }
 
 
