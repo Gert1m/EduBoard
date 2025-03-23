@@ -5,7 +5,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET")
 {
     if (isset($_SESSION['first-name'])) 
     {
-        header("Location: main.php");
+        header("Location: login.php");
         exit;
     }
 }
@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET")
             <p>
                 EduBoard - это инновационный сервис для образовательных организаций, который позволяет создавать интерактивные доски для учебных целей.
             </p>
-            <button class="btn" onclick="window.location.href='main.php'">Начать использование</button>
+            <button class="btn" onclick="window.location.href='register.php'">Начать использование</button>
         </div>
     </main>
     <footer class="center">

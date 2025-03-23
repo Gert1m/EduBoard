@@ -19,16 +19,20 @@ if (isset($_POST['img'])) {
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Рисование</title>
     <style>
-        body, html {
+        body {
             margin: 0;
             padding: 0;
-            width: 90%;
-            height: 90%;
+            width: 100vw;
+            height: 100vh;
         }
+
         canvas {
+            position: absolute;
             display: block;
+            touch-action: none;
         }
     </style>
 </head>
@@ -78,24 +82,48 @@ if (isset($_POST['img'])) {
             }
         }
 
-        canvas.addEventListener('mousedown', (e) => {
+        canvas.addEventListener('mousedown', (mouse) => {
             drawing = true;
             currentPath = [];
             context.strokeStyle = color;
             context.fillStyle = color;
             context.lineWidth = size;
-            drawCircle(e.offsetX, e.offsetY);
-            currentPath.push({ x: e.offsetX, y: e.offsetY, color: color, size: size });
+            drawCircle(mouse.offsetX, mouse.offsetY);
+            currentPath.push({ x: mouse.offsetX, y: mouse.offsetY, color: color, size: size });
         });
 
-        canvas.addEventListener('mousemove', (e) => {
+        canvas.addEventListener('touchstart', (mouse) => {
+            drawing = true;
+            currentPath = [];
+            context.strokeStyle = color;
+            context.fillStyle = color;
+            context.lineWidth = size;
+            drawCircle(mouse.offsetX, mouse.offsetY);
+            currentPath.push({ x: mouse.offsetX, y: mouse.offsetY, color: color, size: size });
+        });
+
+        canvas.addEventListener('mousemove', (mouse) => {
             if (drawing) {
                 const lastPoint = currentPath[currentPath.length - 1];
-                const distance = getDistance(lastPoint.x, lastPoint.y, e.offsetX, e.offsetY);
+                const distance = getDistance(lastPoint.x, lastPoint.y, mouse.offsetX, mouse.offsetY);
                 const steps = Math.ceil(distance / size * 2);
                 for (let i = 1; i <= steps; i++) {
-                    const x = lastPoint.x + (e.offsetX - lastPoint.x) * (i / steps);
-                    const y = lastPoint.y + (e.offsetY - lastPoint.y) * (i / steps);
+                    const x = lastPoint.x + (mouse.offsetX - lastPoint.x) * (i / steps);
+                    const y = lastPoint.y + (mouse.offsetY - lastPoint.y) * (i / steps);
+                    drawCircle(x, y);
+                    currentPath.push({ x: x, y: y, color: color, size: size });
+                }
+            }
+        });
+
+        canvas.addEventListener('touch', (mouse) => {
+            if (drawing) {
+                const lastPoint = currentPath[currentPath.length - 1];
+                const distance = getDistance(lastPoint.x, lastPoint.y, mouse.offsetX, mouse.offsetY);
+                const steps = Math.ceil(distance / size * 2);
+                for (let i = 1; i <= steps; i++) {
+                    const x = lastPoint.x + (mouse.offsetX - lastPoint.x) * (i / steps);
+                    const y = lastPoint.y + (mouse.offsetY - lastPoint.y) * (i / steps);
                     drawCircle(x, y);
                     currentPath.push({ x: x, y: y, color: color, size: size });
                 }
@@ -108,6 +136,14 @@ if (isset($_POST['img'])) {
                 drawing = false;
             }
         });
+
+        canvas.addEventListener('touchend', () => {
+            if (drawing) {
+                paths.push(currentPath);
+                drawing = false;
+            }
+        });
+
 
         canvas.addEventListener('mouseout', () => {
             drawing = false;

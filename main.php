@@ -2,30 +2,20 @@
 session_start();
 ob_start();
 
-if ($_SERVER["REQUEST_METHOD"] == "GET") 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') 
 {
-    require_once "classes/db.php";
-    $db = new DataBase();
-    $email = $_SESSION['email'];
+    foreach ($_POST as $key) 
+    {
+        if ($key === '$title') 
+        {
 
-    $sql = $db -> query("SELECT id FROM users WHERE email = '$email'");
-    $user_id = $db -> get_result($sql, "id");
-
-    $sql = $db -> query("SELECT * FROM boards WHERE user_id = '$user_id' ORDER BY create_at");
-
-
+        }
+    }
 }
 
 if (isset($_POST['new-board'])) 
 {
     header("Location: new_board.php");
-    ob_end_flush();
-    exit;
-}
-
-if (isset($_POST['new-pattern'])) 
-{
-    header("Location: new_pattern.php");
     ob_end_flush();
     exit;
 }
@@ -94,6 +84,14 @@ if (isset($_POST['new-pattern']))
             border-radius: 2vw;
             margin: 2vw 3.5vw;
         }
+            .tooltip {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            padding: 5px;
+            z-index: 1000;
+        }
     </style>
 </head>
 <body>
@@ -134,7 +132,7 @@ if (isset($_POST['new-pattern']))
         </div>
 
         <div class="row center" id="finder-div">
-            <input type="text" placeholder="Поиск досок или шаблонов">
+            <input type="text" placeholder="Поиск досок">
             <button class="btn">Поиск</button>
         </div>
 
@@ -145,26 +143,50 @@ if (isset($_POST['new-pattern']))
                     <button name="new-board">+</button>
                 </form>
                 <?php 
-                if ($sql != "") 
+                if ($_SERVER["REQUEST_METHOD"] == "GET") 
                 {
-                    for ($i=1; $i < $sql -> num_rows; $i++) 
+                    require_once "classes/db.php";
+                    $db = new DataBase();
+                    $email = $_SESSION['email'];
+                
+                    $sql = $db -> query("SELECT id FROM users WHERE email = '$email'");
+                    $user_id = $db -> get_result($sql, "id");
+                
+                    $sql = $db -> query("SELECT * FROM boards WHERE user_id = '$user_id' ORDER BY create_at");
+                    $count = 1;
+
+                    if ($sql->num_rows > 0)
                     {
-                        echo "1";
+                        while($row = $sql->fetch_assoc())
+                        {
+                            if ($count == 5)
+                            {
+                                echo "<br>";
+                                $count = 0;
+                            }
+                            echo 
+                            '<form class="">
+                                <button onclick="window.location.href=\'board.php\'"></button>
+                                <p style="text-align:center">' . $row["title"] . '</p>
+                                <span class="tooltip">' . $row["discription"] . '</span>
+                            </form>';
+                            $count += 1;    
+                        }
                     }
-                }
+                }                
                 ?>
             </div>
         </div>
 
-        <div class="colomn" id="patterns-info-div">
+        <!-- <div class="colomn" id="patterns-info-div">
             <h2>Ваши шаблоны</h2>
             <div class="row" id="my-patterns-div">
             <form action="main.php" method="POST">
                     <button name="new-pattern">+</button>
                 </form>
-                <!-- Здесь будет динамически добавляться список шаблонов -->
+                Здесь будет динамически добавляться список шаблонов
             </div>
-        </div>
+        </div> -->
     </main>
 
     <footer class="center">

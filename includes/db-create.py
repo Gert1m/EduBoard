@@ -1,7 +1,7 @@
 # pip install pymysql
 import pymysql.cursors
 
-connection = pymysql.connect(host='103.88.241.91', user='mysql', password='mysql', database='eduboard', cursorclass=pymysql.cursors.DictCursor)
+connection = pymysql.connect(host='localhost', user='root', password='root', database='eduboard', cursorclass=pymysql.cursors.DictCursor)
 
 with connection:
     with connection.cursor() as cursor:

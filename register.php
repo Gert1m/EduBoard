@@ -42,7 +42,7 @@ if (isset($_POST['continue']))
 }
 
 if (isset($_POST['register'])) 
-{
+{   
     $first_name = $_POST['first-name'];
     $last_name = $_POST['last-name'];
     $other_name = $_POST['other-name'];
