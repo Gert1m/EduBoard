@@ -24,7 +24,7 @@ with connection:
                             title VARCHAR(255) NOT NULL,
                             user_id INT NOT NULL,
                             create_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                            data LONGTEXT DEFAULT NULL,
+                            draw_data JSON DEFAULT NULL,
                             description VARCHAR(255) DEFAULT NULL
                         ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"""
 

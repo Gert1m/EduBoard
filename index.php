@@ -5,7 +5,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET")
 {
     if (isset($_SESSION['first-name'])) 
     {
-        header("Location: login.php");
+        header("Location: main.php");
         exit;
     }
 }

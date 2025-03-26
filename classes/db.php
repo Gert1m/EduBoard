@@ -9,8 +9,8 @@ class DataBase {
         // var_dump($result);
         // echo "<br>";
         
-        if ($conn->connect_error) {
-            die("Ошибка подключения: " . $conn->connect_error);
+        if ($connection->connect_error) {
+            die("Ошибка подключения: " . $connection->connect_error);
         }
         
         if (is_bool($result))

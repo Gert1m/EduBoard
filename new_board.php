@@ -2,11 +2,11 @@
 session_start();
 ob_start();
 $error = "";
+require_once "classes/db.php";
+$db = new DataBase();
 
 if (isset($_POST['create'])) 
 {   
-    require_once "classes/db.php";
-    $db = new DataBase();
     $title = strtolower($_POST['title']);
     $description = $_POST['description'];
     $email = $_SESSION['email'];
@@ -37,7 +37,7 @@ if (isset($_POST['create']))
 
     if ($error == "")
     {
-        header("Location: board.php");
+        header("Location: board.php?" . http_build_query(["title" => $title, "user_id" => $user_id]));
         ob_end_flush(); 
         exit;
     }

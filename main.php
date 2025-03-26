@@ -164,11 +164,14 @@ if (isset($_POST['new-board']))
                                 echo "<br>";
                                 $count = 0;
                             }
+                            $title = $row["title"]; 
+                            $user_id = $row["user_id"]; 
+
                             echo 
-                            '<form class="">
-                                <button onclick="window.location.href=\'board.php\'"></button>
+                            '<form>
+                                <button type="button" onclick="window.location.href=\'board.php?title=' . $title . '&user_id=' . $user_id . '\'"></button>
                                 <p style="text-align:center">' . $row["title"] . '</p>
-                                <span class="tooltip">' . $row["discription"] . '</span>
+                                <span class="tooltip">' . $row["description"] . '</span>
                             </form>';
                             $count += 1;    
                         }
