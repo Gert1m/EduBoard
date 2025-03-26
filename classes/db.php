@@ -1,9 +1,13 @@
 <?php
 class DataBase {
     function query($sql) {
-        $connection = new mysqli("localhost", "root", "root", "EduBoard");
+        $connection = new mysqli("103.88.241.91", "new_user", "your_password", "eduboard");
         $result = $connection -> query($sql);
         $connection -> close();
+
+        if ($conn->connect_error) {
+            die("Ошибка подключения: " . $conn->connect_error);
+        }
         
         if (is_bool($result))
         {
