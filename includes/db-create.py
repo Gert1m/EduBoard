@@ -1,7 +1,7 @@
 # pip install pymysql
 import pymysql.cursors
 
-connection = pymysql.connect(host='localhost', user='root', password='root', database='eduboard', cursorclass=pymysql.cursors.DictCursor)
+connection = pymysql.connect(host='103.88.241.91', user='new_user', password='your_password', database='eduboard', cursorclass=pymysql.cursors.DictCursor)
 
 with connection:
     with connection.cursor() as cursor:
@@ -24,7 +24,7 @@ with connection:
                             title VARCHAR(255) NOT NULL,
                             user_id INT NOT NULL,
                             create_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                            data LONGTEXT NOT NULL,
+                            data LONGTEXT DEFAULT NULL,
                             description VARCHAR(255) DEFAULT NULL
                         ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"""
 

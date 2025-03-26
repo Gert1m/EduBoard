@@ -8,13 +8,14 @@ if (isset($_POST['create']))
     require_once "classes/db.php";
     $db = new DataBase();
     $title = strtolower($_POST['title']);
-    $discription = $_POST['discription'];
+    $description = $_POST['description'];
     $email = $_SESSION['email'];
 
     $sql = $db -> query("SELECT id FROM users WHERE email = '$email'");
     if (isset($_SESSION['first-name']))
     {
         $user_id = $db -> get_result($sql, "id");
+        
     }
     else
     {
@@ -27,12 +28,10 @@ if (isset($_POST['create']))
     }
     else
     {
-        $sql = $db -> query("SELECT id FROM users WHERE email = '$email'");
-        $user_id = $db -> get_result($sql, "id");
-        $db -> query("INSERT INTO boards SET title = '$title', user_id = '$user_id'");
-        if ($_POST['discription'] != "")
+        $db -> query("INSERT INTO boards SET title = '$title', user_id = $user_id");
+        if ($_POST['description'] != "")
         {
-            $db -> query("UPDATE boards SET discription = '$discription' WHERE title = '$title' AND user_id = '$user_id'");
+            $db -> query("UPDATE boards SET description = '$description' WHERE title = '$title' AND user_id = '$user_id'");
         }
     }
 
@@ -47,6 +46,7 @@ if (isset($_POST['create']))
 if (isset($_POST['undo'])) 
 {
     header("Location: main.php");
+    ob_end_flush(); 
     exit;
 }
 ?>
@@ -68,7 +68,7 @@ if (isset($_POST['undo']))
         body.desktop div#buttons-div button {
             width: 10vw;
         }
-        body.desktop div#form-div textarea#discription {
+        body.desktop div#form-div textarea#description {
             height: 22vh;
             text-align: left;
         }
@@ -85,7 +85,7 @@ if (isset($_POST['undo']))
         body.mobile div#buttons-div button {
             width: 22vw;
         }
-        body.mobile div#form-div textarea#discription {
+        body.mobile div#form-div textarea#description {
             height: 22vw;
         }
         body.mobile div#form-div p {
@@ -106,14 +106,14 @@ if (isset($_POST['undo']))
         ?>
         <form action="new_board.php" method="POST">
             <input type="text" name="title" placeholder="Название доски" required>
-            <textarea type="text" name="discription" placeholder="Описание к доске" id="discription"></textarea>
+            <textarea type="text" name="description" placeholder="Описание к доске" id="description"></textarea>
             <div class="row spased" id="buttons-div">
                 <span></span>
                 <form action="new_board.php" method="POST">
                     <button name="create" id="create">Создать</button>
                 </form>
                 <form action="new_board.php" method="POST">
-                    <button name="undo" id="discription">Отмена</button>
+                    <button name="undo" id="undo">Отмена</button>
                 </form>
                 <span></span>
             </div>

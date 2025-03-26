@@ -1,18 +1,7 @@
 <?php
-if (isset($_POST['img'])) {
-    $data = $_POST['img'];
-    var_dump($data);
-    $data = str_replace('data:image/png;base64,', '', $data);
-    $data = str_replace(' ', '+', $data);
-    $imgData = base64_decode($data);
-
-    $file = 'images/drawing_' . time() . '.png';
-    if (file_put_contents($file, $imgData)) {
-        echo "Рисунок сохранен";
-    } else {
-        echo "Ошибка сохранения рисунка";
-    }
-}
+require_once "classes/db.php";
+$db = new DataBase();
+$current_data = [];
 ?>
 
 <!DOCTYPE html>
@@ -37,7 +26,6 @@ if (isset($_POST['img'])) {
     </style>
 </head>
 <body>
-    <script src="includes/app.js"></script>
     <canvas id="canvas"></canvas>
     <button onclick="undo()">Отменить последнее действие</button>
     <label for="colorPicker">Цвет:</label>
@@ -50,10 +38,6 @@ if (isset($_POST['img'])) {
         const canvas = document.getElementById('canvas');
         const context = canvas.getContext('2d');
         let drawing = false;
-        let paths = JSON.parse(localStorage.getItem('paths')) || [];
-        let currentPath = [];
-        let color = document.getElementById('colorPicker').value;
-        let size = document.getElementById('sizePicker').value;
 
         function getDistance(x1, y1, x2, y2) {
             return Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
@@ -72,7 +56,9 @@ if (isset($_POST['img'])) {
 
         function redraw() {
             context.clearRect(0, 0, canvas.width, canvas.height);
-            for (let path of paths) {
+            let data = <?php $_SESSION['data'];?>
+
+            for (let path of data) {
                 context.strokeStyle = path[0].color;
                 context.fillStyle = path[0].color;
                 context.lineWidth = path[0].size;
@@ -81,114 +67,6 @@ if (isset($_POST['img'])) {
                 }
             }
         }
-
-        canvas.addEventListener('mousedown', (mouse) => {
-            drawing = true;
-            currentPath = [];
-            context.strokeStyle = color;
-            context.fillStyle = color;
-            context.lineWidth = size;
-            drawCircle(mouse.offsetX, mouse.offsetY);
-            currentPath.push({ x: mouse.offsetX, y: mouse.offsetY, color: color, size: size });
-        });
-
-        canvas.addEventListener('touchstart', (mouse) => {
-            drawing = true;
-            currentPath = [];
-            context.strokeStyle = color;
-            context.fillStyle = color;
-            context.lineWidth = size;
-            drawCircle(mouse.offsetX, mouse.offsetY);
-            currentPath.push({ x: mouse.offsetX, y: mouse.offsetY, color: color, size: size });
-        });
-
-        canvas.addEventListener('mousemove', (mouse) => {
-            if (drawing) {
-                const lastPoint = currentPath[currentPath.length - 1];
-                const distance = getDistance(lastPoint.x, lastPoint.y, mouse.offsetX, mouse.offsetY);
-                const steps = Math.ceil(distance / size * 2);
-                for (let i = 1; i <= steps; i++) {
-                    const x = lastPoint.x + (mouse.offsetX - lastPoint.x) * (i / steps);
-                    const y = lastPoint.y + (mouse.offsetY - lastPoint.y) * (i / steps);
-                    drawCircle(x, y);
-                    currentPath.push({ x: x, y: y, color: color, size: size });
-                }
-            }
-        });
-
-        canvas.addEventListener('touch', (mouse) => {
-            if (drawing) {
-                const lastPoint = currentPath[currentPath.length - 1];
-                const distance = getDistance(lastPoint.x, lastPoint.y, mouse.offsetX, mouse.offsetY);
-                const steps = Math.ceil(distance / size * 2);
-                for (let i = 1; i <= steps; i++) {
-                    const x = lastPoint.x + (mouse.offsetX - lastPoint.x) * (i / steps);
-                    const y = lastPoint.y + (mouse.offsetY - lastPoint.y) * (i / steps);
-                    drawCircle(x, y);
-                    currentPath.push({ x: x, y: y, color: color, size: size });
-                }
-            }
-        });
-
-        canvas.addEventListener('mouseup', () => {
-            if (drawing) {
-                paths.push(currentPath);
-                drawing = false;
-            }
-        });
-
-        canvas.addEventListener('touchend', () => {
-            if (drawing) {
-                paths.push(currentPath);
-                drawing = false;
-            }
-        });
-
-
-        canvas.addEventListener('mouseout', () => {
-            drawing = false;
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if (e.ctrlKey && (e.key === 'z' || e.key === "я")) {
-                undo();
-            }
-        });
-
-        document.getElementById('colorPicker').addEventListener('change', (e) => {
-            color = e.target.value;
-        });
-
-        document.getElementById('sizePicker').addEventListener('change', (e) => {
-            size = e.target.value;
-        });
-
-        function undo() {
-            if (paths.length > 0) {
-                paths.pop();
-                localStorage.setItem('paths', JSON.stringify(paths));
-                redraw();
-            }
-        }
-
-        function saveDrawing() {
-            const dataURL = canvas.toDataURL('image/png');
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', 'save.php', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send('img=' + encodeURIComponent(dataURL));
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    alert('Рисунок сохранен');
-                } else {
-                    alert('Ошибка сохранения рисунка');
-                }
-            };
-        }
-
-        window.addEventListener('resize', resizeCanvas);
-        window.addEventListener('load', resizeCanvas);
-        window.addEventListener('load', redraw);
     </script>
 </body>
 </html>

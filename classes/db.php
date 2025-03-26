@@ -1,10 +1,14 @@
 <?php
 class DataBase {
     function query($sql) {
-        $connection = new mysqli("103.88.241.91", "new_user", "your_password", "eduboard");
+        $connection = new mysqli("localhost", "mysql", "mysql", "eduboard");
         $result = $connection -> query($sql);
         $connection -> close();
 
+        // echo "$sql ---> ";
+        // var_dump($result);
+        // echo "<br>";
+        
         if ($conn->connect_error) {
             die("Ошибка подключения: " . $conn->connect_error);
         }
